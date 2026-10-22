@@ -158,4 +158,15 @@ class AreaMunicipalTest extends TestCase
         $this->get("/painel/anexos/$id/$id")->assertNotFound();
         $this->get('/painel/anexos/../x/y')->assertNotFound();
     }
+
+    public function test_demo_command_seeds_fictional_reports_once(): void
+    {
+        $this->artisan('canal:demo')->assertSuccessful();
+        $reports = app(JsonReportRepository::class)->all();
+        $this->assertCount(6, $reports);
+        $this->assertContains('Resolvido', array_column($reports, 'status'));
+
+        $this->artisan('canal:demo')->assertSuccessful();
+        $this->assertCount(6, app(JsonReportRepository::class)->all());
+    }
 }

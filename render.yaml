@@ -2,12 +2,8 @@ services:
   - type: web
     name: canal-em-dia
     runtime: docker
-    plan: starter          # disco persistente exige plano pago
+    plan: free             # sem disco: os dados somem a cada deploy/reinício
     healthCheckPath: /
-    disk:
-      name: dados
-      mountPath: /var/www/html/storage/app
-      sizeGB: 1
     envVars:
       - key: APP_ENV
         value: production
@@ -23,3 +19,9 @@ services:
         value: stderr
       - key: CANAL_CODIGO_CADASTRO
         sync: false        # código longo para cadastrar servidores
+      - key: CANAL_DEMO      # recria relatos fictícios a cada início
+        value: "1"
+      - key: CANAL_DEMO_EMAIL
+        sync: false        # e-mail do servidor de demonstração (opcional)
+      - key: CANAL_DEMO_PASSWORD
+        sync: false        # senha com 10+ caracteres (opcional)
