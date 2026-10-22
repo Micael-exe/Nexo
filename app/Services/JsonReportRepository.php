@@ -124,6 +124,103 @@ class JsonReportRepository
         }
     }
 
+    /**
+     * Consulta privada: exige protocolo E credencial. Não revela qual dos dois falhou.
+     * Devolve somente a visão pública do próprio solicitante (sem contato, hashes ou caminhos).
+     */
+    public function findVerified(string $protocol, string $credential): ?array
+    {
+        $document = $this->readShared();
+        $credentialHash = hash('sha256', $credential);
+        $found = null;
+        // Percorre todos os registros para não variar o tempo conforme a posição do acerto.
+        foreach ($document['relatos'] as $report) {
+            $protocolMatches = hash_equals((string) $report['protocol'], $protocol);
+            $credentialMatches = hash_equals((string) ($report['credential_hash'] ?? ''), $credentialHash);
+            if ($protocolMatches && $credentialMatches) {
+                $found = $report;
+            }
+        }
+
+        return $found === null ? null : $this->publicView($found);
+    }
+
+    /** Visão pública de relatos já autenticados nesta sessão, na ordem dos IDs recebidos. */
+    public function summaries(array $ids): array
+    {
+        $byId = [];
+        foreach ($this->readShared()['relatos'] as $report) {
+            if (isset($report['id'])) {
+                $byId[$report['id']] = $report;
+            }
+        }
+        $views = [];
+        foreach ($ids as $id) {
+            if (is_string($id) && isset($byId[$id])) {
+                $views[] = $this->publicView($byId[$id]);
+            }
+        }
+
+        return $views;
+    }
+
+    private function readShared(): array
+    {
+        $directory = config('canal.data_path');
+        $file = $directory.'/relatos.json';
+        if (! is_file($file)) {
+            return ['schema_version' => 1, 'relatos' => []];
+        }
+        $lock = @fopen($directory.'/relatos.lock', 'c');
+        if ($lock === false) {
+            throw new RuntimeException('Não foi possível acessar o armazenamento.');
+        }
+        try {
+            if (! flock($lock, LOCK_SH)) {
+                throw new RuntimeException('Não foi possível obter o bloqueio de leitura.');
+            }
+
+            return $this->readDocument($file);
+        } finally {
+            flock($lock, LOCK_UN);
+            fclose($lock);
+        }
+    }
+
+    private function publicView(array $report): array
+    {
+        $timeline = [[
+            'at' => $report['received_at'],
+            'title' => 'Relato recebido',
+            'message' => 'O relato foi registrado nesta demonstração.',
+        ]];
+        // Mensagens públicas futuras (triagem). Notas internas nunca entram aqui.
+        foreach (($report['public_timeline'] ?? []) as $entry) {
+            if (is_array($entry) && is_string($entry['at'] ?? null) && is_string($entry['title'] ?? null)) {
+                $timeline[] = [
+                    'at' => $entry['at'],
+                    'title' => $entry['title'],
+                    'message' => is_string($entry['message'] ?? null) ? $entry['message'] : null,
+                ];
+            }
+        }
+
+        return [
+            'id' => $report['id'],
+            'protocol' => $report['protocol'],
+            'status' => $report['status'],
+            'category' => config('canal.categories')[$report['category'] ?? ''] ?? 'Outro problema',
+            'description' => (string) ($report['description'] ?? ''),
+            'address' => (string) ($report['location']['address'] ?? ''),
+            'reference' => (string) ($report['location']['reference'] ?? ''),
+            'photos_count' => count($report['attachments'] ?? []),
+            'received_at' => $report['received_at'],
+            'updated_at' => $timeline[array_key_last($timeline)]['at'],
+            'deadline' => is_string($report['public_deadline'] ?? null) ? $report['public_deadline'] : null,
+            'timeline' => $timeline,
+        ];
+    }
+
     private function readDocument(string $file): array
     {
         if (! file_exists($file)) {

@@ -37,11 +37,12 @@ class NovoRelatoTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_only_the_two_assigned_pages_are_available(): void
+    public function test_only_the_implemented_pages_are_available(): void
     {
-        $this->get('/')->assertOk();
-        $this->get('/novo-relato')->assertOk();
-        foreach (['/acompanhar', '/canais', '/login', '/dashboard'] as $url) {
+        foreach (['/', '/novo-relato', '/acompanhar', '/canais'] as $url) {
+            $this->get($url)->assertOk();
+        }
+        foreach (['/login', '/dashboard'] as $url) {
             $this->get($url)->assertNotFound();
         }
     }

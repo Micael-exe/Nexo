@@ -45,7 +45,7 @@
                         <article class="how-card"><span class="card-number">02</span><span class="card-icon"><x-icon name="calendar" /></span><h3>Conecte<br>as informações.</h3><p>No fluxo proposto, a equipe verifica o relato e organiza as inspeções necessárias.</p></article>
                         <article class="how-card"><span class="card-number">03</span><span class="card-icon"><x-icon name="water" /></span><h3>Construa<br>um histórico.</h3><p>A proposta reúne intervenções e novas ocorrências para apoiar a avaliação de cada trecho.</p></article>
                     </div>
-                    <div class="scope-note"><x-icon name="info" /><span>Nesta versão, você pode conhecer a proposta e registrar relatos demonstrativos. Acompanhamento, canais e área municipal serão desenvolvidos pela equipe.</span></div>
+                    <div class="scope-note"><x-icon name="info" /><span>Nesta versão, você pode conhecer a proposta, registrar relatos demonstrativos, <a href="{{ route('relatos.track') }}">acompanhar um protocolo</a> e ver os <a href="{{ route('canais.index') }}">canais de demonstração</a>. A área municipal será desenvolvida pela equipe.</span></div>
                 </div>
             </div>
         </div>

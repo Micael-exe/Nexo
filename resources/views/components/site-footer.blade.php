@@ -8,7 +8,8 @@
             <nav class="footer-links" aria-label="Navegação do rodapé">
                 <a href="{{ route('home') }}">Início</a>
                 <a href="{{ route('relatos.create') }}">Novo relato</a>
-                <button class="nav-pending" type="button" disabled>Acompanhar <span class="pending-pill">Em breve</span></button>
+                <a href="{{ route('relatos.track') }}">Acompanhar</a>
+                <a href="{{ route('canais.index') }}">Canais</a>
                 <button class="nav-pending" type="button" disabled>Área municipal <span class="pending-pill">Em breve</span></button>
             </nav>
         </div>

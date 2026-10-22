@@ -19,6 +19,9 @@
         @case('chevron')<path d="m9 5 7 7-7 7"/>@break
         @case('warning')<path d="m12 3 10 18H2L12 3Z"/><path d="M12 9v5m0 3h.01"/>@break
         @case('home')<path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-7h6v7"/>@break
+        @case('search')<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>@break
+        @case('map')<path d="M9 4 3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4Z"/><path d="M9 4v14m6-11.5v14"/>@break
+        @case('block')<circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/>@break
         @case('plus')<path d="M12 4v16M4 12h16"/>@break
         @default<path d="M2 7c3-3 5 3 8 0s5 3 8 0 4 0 4 0M2 12c3-3 5 3 8 0s5 3 8 0 4 0 4 0M2 17c3-3 5 3 8 0s5 3 8 0 4 0 4 0"/>
     @endswitch
