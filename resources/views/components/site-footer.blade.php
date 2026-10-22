@@ -9,7 +9,7 @@
                 <a href="{{ route('home') }}">Início</a>
                 <a href="{{ route('relatos.create') }}">Novo relato</a>
                 <button class="nav-pending" type="button" disabled>Acompanhar <span class="pending-pill">Em breve</span></button>
-                <button class="nav-pending" type="button" disabled>Área municipal <span class="pending-pill">Em breve</span></button>
+                <x-staff-nav />
             </nav>
         </div>
         <div class="footer-bottom">

@@ -12,7 +12,7 @@
                 <button class="nav-pending" type="button" disabled aria-label="Canais acompanhados — em breve">Canais <span class="pending-pill">Em breve</span></button>
             </nav>
             <div class="header-actions">
-                <button class="nav-pending" type="button" disabled aria-label="Área municipal — em breve">Área municipal <span class="pending-pill">Em breve</span></button>
+                <div class="staff-nav"><x-staff-nav /></div>
                 <a href="{{ route('relatos.create') }}" class="button button-forest button-small" @if(request()->routeIs('relatos.create')) aria-current="page" @endif>Novo relato <x-icon name="arrow-up-right" /></a>
                 <button class="mobile-toggle" type="button" x-on:click="menuOpen = !menuOpen" x-bind:aria-expanded="menuOpen" aria-controls="mobile-navigation" aria-label="Abrir ou fechar menu">
                     <span x-show="!menuOpen"><x-icon name="menu" /></span><span x-show="menuOpen" x-cloak><x-icon name="close" /></span>
@@ -23,7 +23,7 @@
             <a class="nav-item" href="{{ route('home') }}" @if(request()->routeIs('home')) aria-current="page" @endif>Início</a>
             <button class="nav-pending" type="button" disabled>Acompanhar relato <span class="pending-pill">Em breve</span></button>
             <button class="nav-pending" type="button" disabled>Canais acompanhados <span class="pending-pill">Em breve</span></button>
-            <button class="nav-pending" type="button" disabled>Área municipal <span class="pending-pill">Em breve</span></button>
+            <x-staff-nav />
             <a class="button button-forest" href="{{ route('relatos.create') }}">Novo relato <x-icon name="arrow-right" /></a>
         </nav>
     </div>

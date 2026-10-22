@@ -3,7 +3,7 @@ Sistema de mapeamento e monitoramento de pontos de descarte irregular de entulho
 
 # Canal em Dia
 
-MVP local para o Ideathon Paulista Sustentável. Esta entrega implementa **somente Home (`/`) e Novo relato (`/novo-relato`)**. É uma demonstração com dados fictícios, sem atendimento municipal oficial. O repositório `Micael-exe/Nexo`, branch `main`, estava sem arquivos na revisão `1da7a60` usada como base; o trabalho foi isolado em `codex/home-novo-relato`.
+MVP local para o Ideathon Paulista Sustentável. Esta entrega implementa a Home (`/`), o Novo relato (`/novo-relato`) e a área municipal (`/entrar`, `/cadastro`, `/painel`). É uma demonstração com dados fictícios, sem atendimento municipal oficial.
 
 ## Stack e pré-requisitos
 
@@ -82,6 +82,13 @@ As fotografias são decodificadas e regravadas por GD, sem EXIF/nome original, e
 Há limite de cinco novas tentativas válidas por IP a cada dez minutos e limite de upload temporário. Uma tentativa de gravação que falhe pode consumir esse limite. Retorno idempotente não consome outra tentativa. Sessões duram 30 minutos e são cifradas; respostas usam `no-store`. A aplicação não persiste formulário ou credencial em `localStorage`/`sessionStorage`. Copiar o recibo coloca seu conteúdo na área de transferência, sob controle de quem usa a demonstração.
 
 Dados locais, logs, `.env`, dependências e anexos são ignorados pelo Git. O arquivo JSON permanece privado, mas seu conteúdo operacional não é cifrado integralmente: proteja a pasta com permissões do sistema. Não inclua dados pessoais reais nesta demonstração.
+
+## Área municipal (login, cadastro e painel)
+
+- `/entrar` e `/cadastro` (Livewire) e `/painel` (somente autenticado). Usuários ficam em `storage/app/data/usuarios.json` (senha só como hash), com o mesmo lock/gravação atômica dos relatos. Provider de autenticação próprio (`app/Auth/JsonUserProvider.php`), sem Eloquent.
+- **Cadastro protegido por código:** defina `CANAL_CODIGO_CADASTRO` no `.env` e informe esse código ao servidor autorizado. Sem o código configurado, o cadastro fica desativado. Reinicie `artisan serve` após alterar o `.env`.
+- Painel: contagem por situação, filtros (situação, tipo, busca), detalhe do relato com fotos (servidas só a usuários logados), alteração de situação (Recebido, Em análise, Encaminhado, Resolvido, Descartado) com observação e histórico.
+- Limites do MVP: um único perfil de servidor, sem recuperação de senha, sem exclusão de relatos e sem notificação ao cidadão.
 
 ## Estrutura
 

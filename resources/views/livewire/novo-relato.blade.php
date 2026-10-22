@@ -28,7 +28,7 @@
                         </div>
                         <div class="copy-status" role="status" x-text="copyMessage" x-show="copyMessage" x-cloak></div>
                     </div>
-                    <div class="receipt-notice"><x-icon name="info" /><span>Não há triagem municipal nem envio de e-mail nesta demonstração. O projeto ainda depende de validação com a prefeitura para eventual uso real.</span></div>
+                    <div class="receipt-notice"><x-icon name="info" /><span>Este registro aparece apenas no painel de demonstração; nenhum órgão real o recebe e não há envio de e-mail. O projeto ainda depende de validação com a prefeitura para eventual uso real.</span></div>
                     <div class="receipt-actions"><button type="button" wire:click="resetForm" class="button button-forest" wire:loading.attr="disabled" wire:target="resetForm">Fazer outro relato <x-icon name="plus" /></button><a href="{{ route('home') }}" class="button button-outline">Voltar ao início <x-icon name="arrow-right" /></a></div>
                 </div>
             </section>
