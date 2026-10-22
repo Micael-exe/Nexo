@@ -1,0 +1,9 @@
+.git
+node_modules
+vendor
+.env
+public/build
+storage/app/data/*
+storage/app/private/*
+storage/logs/*
+storage/framework/testing

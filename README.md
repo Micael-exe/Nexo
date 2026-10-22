@@ -90,6 +90,10 @@ Dados locais, logs, `.env`, dependências e anexos são ignorados pelo Git. O ar
 - Painel: contagem por situação, filtros (situação, tipo, busca), detalhe do relato com fotos (servidas só a usuários logados), alteração de situação (Recebido, Em análise, Encaminhado, Resolvido, Descartado) com observação e histórico.
 - Limites do MVP: um único perfil de servidor, sem recuperação de senha, sem exclusão de relatos e sem notificação ao cidadão.
 
+## Visual
+
+Tema escuro verde-petróleo (menta e rosa discreto), alinhado ao app mobile do Canal em Dia. Fica em `resources/css/theme.css`, carregado depois de `app.css`; para mudar cores, edite as variáveis no `:root` desse arquivo. A foto do hero está em `public/images/paulista.jpg` (640×479 px; no desktop ela ocupa só a metade direita para não ficar pixelada).
+
 ## Estrutura
 
 ```text

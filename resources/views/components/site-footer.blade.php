@@ -2,7 +2,7 @@
     <div class="container">
         <div class="footer-top">
             <div class="footer-brand">
-                <a href="{{ route('home') }}" class="brand" aria-label="Canal em Dia — voltar ao início"><span class="brand-mark"><x-icon name="water" /></span><span class="brand-name">Canal em Dia<small>Cuidado que conecta</small></span></a>
+                <a href="{{ route('home') }}" class="brand" aria-label="Canal em Dia — voltar ao início"><span class="brand-mark"><x-icon name="wind" /></span><span class="brand-name">Canal<br>em Dia</span></a>
                 <p>Uma proposta para aproximar comunidade, cuidado ambiental e manutenção dos canais.</p>
             </div>
             <nav class="footer-links" aria-label="Navegação do rodapé">
