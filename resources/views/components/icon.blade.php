@@ -1,6 +1,7 @@
 @props(['name' => 'water'])
 <svg {{ $attributes->class(['icon']) }} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     @switch($name)
+        @case('wind')<path d="M9.6 4.6A2 2 0 1 1 11 8H2m10.6 11.4A2 2 0 1 0 14 16H2m15.7-8.3A2.5 2.5 0 1 1 19.5 12H2"/>@break
         @case('arrow-right')<path d="M4 12h15m-6-6 6 6-6 6"/>@break
         @case('arrow-up-right')<path d="M6 18 18 6M6 6h12v12"/>@break
         @case('menu')<path d="M4 6h16M4 12h16M4 18h16"/>@break

@@ -3,8 +3,8 @@
     <div class="container">
         <div class="header-inner">
             <a href="{{ route('home') }}" class="brand" aria-label="Canal em Dia — página inicial">
-                <span class="brand-mark"><x-icon name="water" /></span>
-                <span class="brand-name">Canal em Dia<small>Cuidado que conecta</small></span>
+                <span class="brand-mark"><x-icon name="wind" /></span>
+                <span class="brand-name">Canal<br>em Dia</span>
             </a>
             <nav class="desktop-nav" aria-label="Navegação principal">
                 <a href="{{ route('home') }}" class="nav-item {{ request()->routeIs('home') ? 'active' : '' }}" @if(request()->routeIs('home')) aria-current="page" @endif>Início</a>
