@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: canal-em-dia
+    runtime: docker
+    plan: starter          # disco persistente exige plano pago
+    healthCheckPath: /
+    disk:
+      name: dados
+      mountPath: /var/www/html/storage/app
+      sizeGB: 1
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false        # gerar com: php artisan key:generate --show
+      - key: APP_URL
+        sync: false        # https://SEU-SERVICO.onrender.com
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: CANAL_CODIGO_CADASTRO
+        sync: false        # código longo para cadastrar servidores
