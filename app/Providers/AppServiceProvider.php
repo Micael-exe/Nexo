@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Auth\JsonUserProvider;
+use App\Services\JsonUserRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Auth::provider('json', fn ($app) => new JsonUserProvider($app->make(JsonUserRepository::class), $app['hash']));
     }
 }

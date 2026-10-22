@@ -11,6 +11,8 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectUsersTo(fn () => route('painel'));
         $middleware->web(append: [\App\Http\Middleware\PrivateDemoHeaders::class]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

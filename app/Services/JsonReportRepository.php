@@ -12,6 +12,8 @@ use Throwable;
 /** Armazenamento privado local. O lock separado continua válido após o rename. */
 class JsonReportRepository
 {
+    use LocksJsonFiles;
+
     public function create(array $data, array $photos, string $submissionKey, ?callable $beforeCreate = null): array
     {
         $directory = config('canal.data_path');
@@ -122,6 +124,55 @@ class JsonReportRepository
             flock($lock, LOCK_UN);
             fclose($lock);
         }
+    }
+
+    /** Relatos para o painel municipal, do mais recente ao mais antigo, sem segredos de recibo. */
+    public function all(): array
+    {
+        $reports = $this->withLock('relatos.lock', fn (string $dir) => $this->readDocument($dir.'/relatos.json')['relatos'], LOCK_SH);
+        usort($reports, fn ($a, $b) => strcmp($b['received_at'], $a['received_at']));
+
+        return array_map($this->forStaff(...), $reports);
+    }
+
+    public function find(string $id): ?array
+    {
+        return collect($this->all())->firstWhere('id', $id);
+    }
+
+    /** Altera a situação e registra o histórico. Retorna false se o relato não existir. */
+    public function updateStatus(string $id, string $status, ?string $note, string $actor): bool
+    {
+        return $this->withLock('relatos.lock', function (string $dir) use ($id, $status, $note, $actor) {
+            $file = $dir.'/relatos.json';
+            $document = $this->readDocument($file);
+            foreach ($document['relatos'] as &$report) {
+                if ($report['id'] !== $id) {
+                    continue;
+                }
+                $report['history'][] = [
+                    'at' => now()->utc()->toIso8601String(),
+                    'from' => $report['status'],
+                    'to' => $status,
+                    'note' => $note !== null && trim($note) !== '' ? trim($note) : null,
+                    'by' => $actor,
+                ];
+                $report['status'] = $status;
+                $this->writeJson($file, $document);
+
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    private function forStaff(array $report): array
+    {
+        unset($report['submission_key_hash'], $report['credential_hash'], $report['receipt_secret_encrypted']);
+        $report['history'] ??= [];
+
+        return $report;
     }
 
     private function readDocument(string $file): array
