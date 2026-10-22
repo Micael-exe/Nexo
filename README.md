@@ -1,3 +1,6 @@
+# Nexo
+Sistema de mapeamento e monitoramento de pontos de descarte irregular de entulho e móveis, com organização de solicitações, acompanhamento de reincidências e otimização das equipes de limpeza urbana, visando reduzir custos operacionais e melhorar a gestão de resíduos.
+
 # Canal em Dia
 
 MVP local para o Ideathon Paulista Sustentável. Esta entrega implementa **somente Home (`/`) e Novo relato (`/novo-relato`)**. É uma demonstração com dados fictícios, sem atendimento municipal oficial. O repositório `Micael-exe/Nexo`, branch `main`, estava sem arquivos na revisão `1da7a60` usada como base; o trabalho foi isolado em `codex/home-novo-relato`.
